@@ -1,0 +1,114 @@
+:root {
+  --mar: 15px;
+}
+
+body {
+  color: #EA3223;
+  font-family: 'Suisse-Intl-Mono';
+  font-size: 14px;
+  margin: var(--mar);
+}
+
+h1 {
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+}
+
+#bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: var(--mar);
+  width: calc(100% - 2 * var(--mar));
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+}
+
+
+a {
+  color: #EA3223;
+  text-decoration: none;
+}
+
+#bottom a {
+  margin-top: var(--mar);
+  display: block;
+}
+
+button {
+  width: 100%;
+  background: white;
+  border: none;
+  box-shadow: 5px 5px 6px 0px #e5e5e5;
+  color: #EA3223;
+  font-family: 'Suisse-Intl-Mono';
+  font-size: 14px;
+  height: 105px;
+  margin-top: var(--mar);
+  text-transform: uppercase;
+}
+
+button:hover {
+  box-shadow: 0px 0px 6px 6px #e5e5e5;
+}
+
+
+select, input {
+  padding: var(--mar);
+  margin-bottom: var(--mar);
+  width: calc(100% - 2 * var(--mar));
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+  border-radius: 0;
+  border: none;
+  color: #EA3223;
+  font-family: 'Suisse-Intl-Mono';
+  font-size: 14px;
+  -webkit-box-shadow:inset 3px 3px 5px 2px #e5e5e5;
+     -moz-box-shadow:inset 3px 3px 5px 2px #e5e5e5;
+          box-shadow:inset 3px 3px 5px 2px #e5e5e5;
+  background: transparent;
+}
+
+::placeholder {
+  color: #EA3223;
+  opacity: 1;
+}
+
+:-ms-input-placeholder { 
+  color: #EA3223;
+}
+
+::-ms-input-placeholder { 
+  color: #EA3223;
+}
+
+#info {
+  height: calc(100vh - 6 * var(--mar));
+  overflow-y: scroll;
+}
+
+@font-face {
+  font-family: 'Suisse-Intl-Mono';
+  src: url('fonts/SuisseIntlMono-Regular-WebS.woff') format('woff'),
+       url('fonts/SuisseIntlMono-Regular-WebS.woff2') format('woff2');
+}
+
+.sr-only {
+	border: 0 !important;
+	clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+	-webkit-clip-path: inset(50%) !important;
+		clip-path: inset(50%) !important;  /* 2 */
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 1px !important;
+	white-space: nowrap !important;            /* 3 */
+}

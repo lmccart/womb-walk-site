@@ -64,3 +64,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+
+.github
+*.DS_Store
+*/.DS_Store
+public/fonts/

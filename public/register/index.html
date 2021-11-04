@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Register | Womb Walk</title>
+
+    <script src='https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js'></script>
+    <script src='https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js'></script>
+    <script src='https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js'></script>
+    <script src='https://www.gstatic.com/firebasejs/9.0.2/firebase-functions-compat.js'></script>
+    <!-- <script defer src='/__/firebase/9.2.0/firebase-app.js'></script>
+    <script defer src='/__/firebase/9.2.0/firebase-auth.js'></script>
+    <script defer src='/__/firebase/9.2.0/firebase-firestore.js'></script> -->
+    <!-- <script defer src='/__/firebase/9.2.0/firebase-functions.js'></script> -->
+    <script src='/__/firebase/init.js?useEmulator=true'></script>
+    <script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script>
+    <link href='/style.css' rel='stylesheet'></link>
+
+  </head>
+  <body>
+    <main>
+      <h1>Register</h1>
+
+      <section id='form'>
+
+        <label for='time' class='sr-only'>Timeslot:</label>
+        <select id='time'>
+          <option value=''></option>
+        </select>
+        <label for='name' class='sr-only'>Name:</label>
+        <input type='text' id='name' placeholder='Name'>
+        <label for='email' class='sr-only'>Name:</label>
+        <input type='text' id='email' placeholder='Email'>
+        <label for='phone' class='sr-only'>Phone:</label>
+        <input type='text' id='phone' placeholder='Phone'>
+        <label for='comments' class='sr-only'>Additional Comments:</label>
+        <input type='text' id='comments' placeholder='Additional Comments'>
+
+      </section>
+      <section id='sorry' style='display:none'>Sorry, there are no remaining walk sessions. Please try back later.</section>
+      <section id='confirm' style='display:none'>
+        <h2 class='sr-only'>Confirmation</h2>
+        <p>!! Please read and note the following carefully, you will <b>not</b> receive an email confirmation !!</p>
+        <p>Your session is confirmed for <span id='confirm-ts'></span>.</p>
+        <p>At the start of your session, please return to <a href='#'>womb-walk.com</a> and enter code <span id='confirm-code'></span>.</p>
+        <p>If you need to cancel or reschedule, please email <a href='mailto:'>studio.laurenleemccarthy@gmail.com</a>.</p>
+      </section>
+
+      <section id='bottom'>
+        <div id='buttons'>
+          <button id='submit' onclick='submit'>Submit</button>
+          <button id='back' onclick='location.href="/"'>Back</button>
+        </div>
+        
+        <a href='/about/'>Learn more.</a>
+      </section>
+    </main>
+    <script src='/js/register.js'></script>
+  </body>
+</html>
