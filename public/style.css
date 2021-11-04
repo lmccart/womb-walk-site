@@ -1,6 +1,7 @@
 :root {
   --mar: 15px;
   --buttonH: 105px;
+  --font: 14px;
 }
 
 html, body{
@@ -8,20 +9,23 @@ html, body{
   margin: 0;
 }
 
-
-body {
+body, a, input, select, button, h1 {
   color: #EA3223;
   font-family: 'Suisse-Intl-Mono';
-  font-size: 14px;
+  font-size: var(--font);
+  font-weight: normal;
+  
+}
+
+body {
   height: 100%;
 }
 
 h1 {
-  font-size: 12px;
-  font-weight: normal;
   text-transform: uppercase;
   width: 100%;
   text-align: center;
+  margin: var(--mar) 0 0 0;
 }
 
 #bottom {
@@ -36,7 +40,6 @@ h1 {
 
 
 a {
-  color: #EA3223;
   text-decoration: none;
 }
 
@@ -50,9 +53,6 @@ button {
   background: white;
   border: none;
   box-shadow: 5px 5px 6px 0px #e5e5e5;
-  color: #EA3223;
-  font-family: 'Suisse-Intl-Mono';
-  font-size: 14px;
   height: var(--buttonH);
   margin-top: var(--mar);
   text-transform: uppercase;
@@ -72,9 +72,6 @@ select, input {
   width: fill-available;
   border-radius: 0;
   border: none;
-  color: #EA3223;
-  font-family: 'Suisse-Intl-Mono';
-  font-size: 14px;
   -webkit-box-shadow:inset 3px 3px 5px 2px #e5e5e5;
      -moz-box-shadow:inset 3px 3px 5px 2px #e5e5e5;
           box-shadow:inset 3px 3px 5px 2px #e5e5e5;
@@ -116,9 +113,16 @@ input:last-child {
 
 #log {
   flex: 1 1 auto;
-  background: yellow;
   overflow-y: scroll;
-  margin: 0 var(--mar);
+  margin: var(--mar);
+}
+
+.ts {
+  display: block;
+}
+
+.direct {
+  padding: var(--mar) 0;
 }
 
 @font-face {
