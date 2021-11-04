@@ -10,6 +10,49 @@ function init() {
   $('#submit').click(submit);
   $('#left').click(kick);
   $('#right').click(kick);
+
+
+  const peer = new Peer('walk1234');
+  peer.on('open', function(id) {
+    console.log('My peer ID is: ' + id);
+
+    let conn = peer.connect('laurenleemack');
+  
+    conn.on('open', function() {
+      console.log('connected');
+      conn.on('data', function(data) {
+        console.log('Received', data);
+      });
+    });
+
+    peer.on('call', function(call) {
+      console.log('incomign call');
+      call.on('stream', function(stream) {
+        var video = document.querySelector('video')
+  
+        if ('srcObject' in video) {
+          video.srcObject = stream
+        } else {
+          video.src = window.URL.createObjectURL(stream) // for older browsers
+        }
+    
+        video.play()
+  
+      });
+      
+      
+      call.answer();
+
+      
+    });
+
+    
+    
+
+
+  });
+  
+
 }
 
 function submit() {
@@ -88,4 +131,3 @@ function logFS(data) {
   db.collection(`session-${code}`).doc(data.ts).set(data);
 }
 
-// listen for updates

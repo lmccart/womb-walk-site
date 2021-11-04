@@ -28,9 +28,12 @@ h1 {
   margin: var(--mar) 0 0 0;
 }
 
+section {
+  margin: 0 var(--mar);
+}
+
 #bottom {
-  margin: var(--mar);
-  margin-top: 0;
+  margin-bottom: var(--mar);
   width: calc(100% - 2 * var(--mar));
   width: -moz-available;
   width: -webkit-fill-available;
