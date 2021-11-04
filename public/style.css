@@ -1,12 +1,19 @@
 :root {
   --mar: 15px;
+  --buttonH: 105px;
 }
+
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
 
 body {
   color: #EA3223;
   font-family: 'Suisse-Intl-Mono';
   font-size: 14px;
-  margin: var(--mar);
+  height: 100%;
 }
 
 h1 {
@@ -18,14 +25,13 @@ h1 {
 }
 
 #bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   margin: var(--mar);
+  margin-top: 0;
   width: calc(100% - 2 * var(--mar));
   width: -moz-available;
   width: -webkit-fill-available;
   width: fill-available;
+  flex: 0 1 0px;
 }
 
 
@@ -47,7 +53,7 @@ button {
   color: #EA3223;
   font-family: 'Suisse-Intl-Mono';
   font-size: 14px;
-  height: 105px;
+  height: var(--buttonH);
   margin-top: var(--mar);
   text-transform: uppercase;
 }
@@ -75,6 +81,10 @@ select, input {
   background: transparent;
 }
 
+input:last-child {
+  margin-bottom: 0;
+}
+
 ::placeholder {
   color: #EA3223;
   opacity: 1;
@@ -91,6 +101,24 @@ select, input {
 #info {
   height: calc(100vh - 6 * var(--mar));
   overflow-y: scroll;
+}
+
+#form {
+  margin: var(--mar);
+}
+
+#walk-main {
+
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+#log {
+  flex: 1 1 auto;
+  background: yellow;
+  overflow-y: scroll;
+  margin: 0 var(--mar);
 }
 
 @font-face {
