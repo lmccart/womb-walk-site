@@ -30,12 +30,13 @@ function login(_code) {
   db.collection('sessions').doc(_code.toUpperCase()).onSnapshot((doc) => {
     if (!doc || !doc.data()) {
       logLine('Your access code has been denied.');
+    } else if (doc.data().ended) {
+      end();
     } else {
       if (doc.data().url) {
         playerId = doc.data().url.replace('https://youtu.be/', '');
         initAudio();
       }
-      db.collection('sessions').doc(_code).set({listening: true}, {merge: true});
       code = _code;
       if ($('#form').is(':visible')) loadWalk();
     }
@@ -62,8 +63,11 @@ function onPlayerReady(event) {
 
 
 function loadWalk() {
+  $('h1').html('Womb Walk');
   $('#form').hide();
   $('#submit').hide();
+  $('#link-register').hide();
+  $('#link-help').show();
   logLine('Your access code has been accepted.');
   logLine('Womb walk is loading.');
 
@@ -112,4 +116,11 @@ function getDate() {
   }
   s += dayjs().format('DD.MM.YY HH:mm A');
   return s;
+}
+
+function end() {
+  $('h1').html('Goodbye');
+  $('#log').html('');
+  $('#bottom').hide();
+  logLine('It was nice sharing this walk with you.', true);
 }
