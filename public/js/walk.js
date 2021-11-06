@@ -14,6 +14,7 @@ function init() {
   $('#submit').click(submit);
   $('#left').click(kick);
   $('#right').click(kick);
+  $('#link-help').click(help);
 }
 
 function submit() {
@@ -68,13 +69,20 @@ function loadWalk() {
   $('#submit').hide();
   $('#link-register').hide();
   $('#link-help').show();
-  logLine('Your access code has been accepted.');
-  logLine('Womb walk is loading.');
+  logLine('Your access code has been accepted.', new Date().getTime());
+  logLine('Womb Walk is loading.', new Date().getTime());
 
-  db.collection(`session-${code}`).where('type', '!=', '').onSnapshot(snapshot => {
+  db.collection(`session-${code}`)
+    .orderBy('ts', 'asc')
+    .onSnapshot(snapshot => {
     snapshot.docChanges().forEach((change) => {
+      let data = change.doc.data();
       if (change.type === 'added') {
-        logLine(change.doc.data().type);
+        if (data.type === 'kick') {
+          logLine(`You have kicked ${data.dir}.`, Number(data.ts));
+        } else if (data.type === 'help') {
+          logLine(`You have sought help.`, Number(data.ts));
+        }
       }
     });
   });
@@ -83,7 +91,7 @@ function loadWalk() {
 function startWalk() {
   $('#left').show();
   $('#right').show();
-  logLine('You are the imagined baby inside me. I will describe the outside world to you. I will feel for your kicks.<br><br>Sound is activated. Please make sure your volume is on!', true);
+  logLine('You are the imagined baby inside me. I will describe the outside world to you. I will feel for your kicks.<br><br>Sound is activated. Please make sure your volume is on!', false, true);
 }
 
 function kick(e) {
@@ -94,33 +102,45 @@ function kick(e) {
 }
 
 
-function logLine(line, direct) {
+function logLine(line, ts, direct) {
   let prefix = direct ? '' : '-> '
   let elt = $(`<div class='line ${direct ? "direct" : ""}'>${prefix}${line}</div>`);
   $('#log').append(elt);
   if (!direct) {
-    elt.append(`<span class='ts'>${getDate()}</span>`);
+    elt.append(`<span class='ts'>${getDate(ts)}</span>`);
   }
   $('#log').scrollTop($('#log')[0].scrollHeight);
 }
 
-function logFS(data) {
+function logFS(data, cb) {
   data.ts = String(new Date().getTime());
-  db.collection(`session-${code}`).doc(data.ts).set(data);
+  db.collection(`session-${code}`).doc(data.ts).set(data)
+  .then(() => {
+    if (cb) cb();
+  })
 }
 
-function getDate() {
+function getDate(ts) {
   let s = '';
   for (let i = 0; i < 20; i++) {
     s += '&nbsp;';
   }
-  s += dayjs().format('DD.MM.YY HH:mm A');
+  s += dayjs(ts).format('HH:mm A DD.MM.YY');
+  console.log(ts);
+  console.log(dayjs(ts).format('HH:mm A DD.MM.YY'))
   return s;
 }
 
+function help() {
+  logFS({type: 'help'}, () => {
+    window.location = `/help/#${code}`;
+  });
+}
+
 function end() {
+  $('iframe').remove();
   $('h1').html('Goodbye');
   $('#log').html('');
   $('#bottom').hide();
-  logLine('It was nice sharing this walk with you.', true);
+  logLine('It was nice sharing this walk with you.', false, true);
 }

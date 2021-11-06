@@ -36,7 +36,6 @@ function start() {
   $('#info').hide();
   $('#submit').hide();
   $('#end').show();
-  $('#success').show();
 
   db.collection(`session-${code}`).where('type', '!=', '').onSnapshot(snapshot => {
     snapshot.docChanges().forEach((change) => {

@@ -46,7 +46,7 @@ a {
   text-decoration: none;
 }
 
-#bottom a {
+#bottom a, #bottom .link {
   margin-top: var(--mar);
   display: block;
 }
@@ -99,16 +99,16 @@ input:last-child {
 }
 
 #info {
-  height: calc(100vh - 6 * var(--mar));
+  flex: 1 1 auto;
   overflow-y: scroll;
 }
 
 #form {
+  flex: 1 1 auto;
   margin: var(--mar);
 }
 
-#walk-main {
-
+.filler {
   display: flex;
   flex-flow: column;
   height: 100%;
@@ -136,14 +136,22 @@ input:last-child {
 
 .sr-only {
 	border: 0 !important;
-	clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+	clip: rect(1px, 1px, 1px, 1px) !important;
 	-webkit-clip-path: inset(50%) !important;
-		clip-path: inset(50%) !important;  /* 2 */
+		clip-path: inset(50%) !important;
 	height: 1px !important;
 	margin: -1px !important;
 	overflow: hidden !important;
 	padding: 0 !important;
 	position: absolute !important;
 	width: 1px !important;
-	white-space: nowrap !important;            /* 3 */
+	white-space: nowrap !important;
+}
+
+
+/* TABLET */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1199px) {
+  .column {
+    width: calc(50% - var(--mar) * 0.5);
+  }
 }
