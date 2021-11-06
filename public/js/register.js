@@ -11,8 +11,9 @@ function init() {
       displaySorry();
     }
     snapshot.docChanges().forEach(function(change) {
-      console.log(change.doc.data())
-      $('#time').append(`<option value='${change.doc.data().code}'>${change.doc.data().timestamp.toDate()}</option>`);
+      if (change.type === 'added') {
+        $('#time').append(`<option value='${change.doc.data().code}'>${change.doc.data().timestamp.toDate()}</option>`);
+      }
     });
   });
 

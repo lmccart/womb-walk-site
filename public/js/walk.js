@@ -1,5 +1,5 @@
 const app = firebase.app();
-let code;
+let code, playerId, player;
 
 firebase.auth().signInAnonymously()
 .then(init)
@@ -7,67 +7,18 @@ firebase.auth().signInAnonymously()
 
 function init() {
   db = firebase.firestore(app);
+
+  let hash = window.location.hash.substring(1);
+  if (hash) login(hash);
+
   $('#submit').click(submit);
   $('#left').click(kick);
   $('#right').click(kick);
-
-
-  const peer = new Peer('walk1234');
-  peer.on('open', function(id) {
-    console.log('My peer ID is: ' + id);
-
-    let conn = peer.connect('laurenleemack');
-  
-    conn.on('open', function() {
-      console.log('connected');
-      conn.on('data', function(data) {
-        console.log('Received', data);
-      });
-    });
-
-    peer.on('call', function(call) {
-      console.log('incomign call');
-      call.on('stream', function(stream) {
-        var video = document.querySelector('video')
-  
-        if ('srcObject' in video) {
-          video.srcObject = stream
-        } else {
-          video.src = window.URL.createObjectURL(stream) // for older browsers
-        }
-    
-        video.play()
-  
-      });
-      
-      
-      call.answer();
-
-      
-    });
-
-    
-    
-
-
-  });
-  
-
 }
 
 function submit() {
   if (!validate()) return;
-
-  let _code = $('#code').val();
-  db.collection('sessions').where('code', '==', _code.toUpperCase()).onSnapshot({}, function(snapshot) {
-    if (!snapshot.docs.length) {
-      logLine('Your access code has been denied.');
-    } else {
-      db.collection('sessions').doc(_code).set({listening: true}, {merge: true});
-      code = _code;
-      loadWalk();
-    }
-  });
+  login($('#code').val());
 }
 
 function validate() {
@@ -75,14 +26,69 @@ function validate() {
   else return true;
 }
 
-function getDate() {
-  let s = '';
-  for (let i = 0; i < 20; i++) {
-    s += '&nbsp;';
-  }
-  s += dayjs().format('DD.MM.YY HH:mm A');
-  return s;
+function login(_code) {
+  db.collection('sessions').doc(_code.toUpperCase()).onSnapshot((doc) => {
+    if (!doc || !doc.data()) {
+      logLine('Your access code has been denied.');
+    } else {
+      if (doc.data().url) {
+        playerId = doc.data().url.replace('https://youtu.be/', '');
+        initAudio();
+      }
+      db.collection('sessions').doc(_code).set({listening: true}, {merge: true});
+      code = _code;
+      if ($('#form').is(':visible')) loadWalk();
+    }
+  });
 }
+
+
+function initAudio() {
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+      videoId: playerId,
+      events: { 'onReady': onPlayerReady }
+  });
+}
+function onPlayerReady(event) {
+  event.target.playVideo();
+  startWalk();
+}
+
+
+function loadWalk() {
+  $('#form').hide();
+  $('#submit').hide();
+  logLine('Your access code has been accepted.');
+  logLine('Womb walk is loading.');
+
+  db.collection(`session-${code}`).where('type', '!=', '').onSnapshot(snapshot => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added') {
+        logLine(change.doc.data().type);
+      }
+    });
+  });
+}
+
+function startWalk() {
+  $('#left').show();
+  $('#right').show();
+  logLine('You are the imagined baby inside me. I will describe the outside world to you. I will feel for your kicks.<br><br>Sound is activated. Please make sure your volume is on!', true);
+}
+
+function kick(e) {
+  let dir = e.target.innerHTML.toLowerCase();
+  logFS({dir: dir, type: 'kick'});
+
+  // $.get('http://lauren-mccarthy.com'); // hit ngrok endpoint
+}
+
 
 function logLine(line, direct) {
   let prefix = direct ? '' : '-> '
@@ -94,40 +100,16 @@ function logLine(line, direct) {
   $('#log').scrollTop($('#log')[0].scrollHeight);
 }
 
-function loadWalk() {
-  $('#form').hide();
-  $('#submit').hide();
-  logLine('Your access code has been accepted.');
-  logLine('Womb walk is loading.');
-  
-  console.log(code)
-  db.collection(`session-${code}`).where('type', '!=', '').onSnapshot(snapshot => {
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === 'added') {
-        logLine(change.doc.data().type);
-      }
-    });
-  });
-
-  setTimeout(startWalk, 1000);
-}
-
-function startWalk() {
-  $('#left').show();
-  $('#right').show();
-  // logFS({type: 'start'});
-  logLine('You are the imagined baby inside me. I will describe the outside world to you. I will feel for your kicks.<br><br>Sound is activated. Please make sure your volume is on!', true);
-}
-
-function kick(e) {
-  let dir = e.target.innerHTML.toLowerCase();
-  logFS({dir: dir, type: 'kick'});
-
-  // $.get('http://lauren-mccarthy.com'); // hit ngrok endpoint
-}
-
 function logFS(data) {
   data.ts = String(new Date().getTime());
   db.collection(`session-${code}`).doc(data.ts).set(data);
 }
 
+function getDate() {
+  let s = '';
+  for (let i = 0; i < 20; i++) {
+    s += '&nbsp;';
+  }
+  s += dayjs().format('DD.MM.YY HH:mm A');
+  return s;
+}

@@ -1,30 +1,34 @@
-const peer = new Peer('laurenleemack');
+const app = firebase.app();
+firebase.auth().signInAnonymously()
+.then(init)
+.catch(function(error) { console.log(error); });
 
-peer.on('open', function(id) {
-  console.log('My peer ID is: ' + id);
-});
-
-peer.on('connection', function(conn) {
-  console.log('connected');
-
-  conn.on('open', function() {
-    conn.on('data', function(data) {
-      console.log('Received', data);
+function init() {
+  db = firebase.firestore(app);
+  db.collection('sessions').where('code', '!=', '').onSnapshot({}, function(snapshot) {
+    snapshot.docChanges().forEach(function(change) {
+      if (change.type === 'added') {
+        $('#sessions').append(`<option value='${change.doc.data().code}'>${change.doc.data().timestamp.toDate()} - ${change.doc.data().name}</option>`);
+      }
     });
   });
-  getAudio();
-});
+  $('#submit').click(submit);
+}
 
-function getAudio() {
-  navigator.mediaDevices.getUserMedia({
-    video: false,
-    audio: true
-  }).then(openStream).catch(e => {
-    console.log(e);
+function submit() {
+  console.log('submi')
+  if (!validate()) return;
+  let url = $('#url').val();
+  let code = $('#sessions').val();
+  db.collection('sessions').doc(code).set({url: url}, {merge: true}).then(() => {
+    $('#info').hide();
+    $('#bottom').hide();
+    $('#success').show();
   });
 }
 
-function openStream(stream) {
-  console.log('starting call');
-  peer.call('walk1234', stream);
+
+function validate() {
+  if (!$('#url').val() || !$('#sessions').val()) alert('Please enter your url.');
+  else return true;
 }
