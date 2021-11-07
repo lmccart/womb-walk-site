@@ -97,19 +97,22 @@ function startWalk() {
 function kick(e) {
   let dir = e.target.innerHTML.toLowerCase();
   logFS({dir: dir, type: 'kick'});
-
-  // $.get('http://lauren-mccarthy.com'); // hit ngrok endpoint
+  $.get(`https://womb-walk.ngrok.io/turn/${dir}`, (res) => { console.log(res); });
 }
 
 
 function logLine(line, ts, direct) {
   let prefix = direct ? '' : '-> '
   let elt = $(`<div class='line ${direct ? "direct" : ""}'>${prefix}${line}</div>`);
-  $('#log').append(elt);
+  let container = '#log';
+  if (window.innerWidth >= 768) container = direct ? '#left-column' : '#right-column';
+  $(container).append(elt);
   if (!direct) {
     elt.append(`<span class='ts'>${getDate(ts)}</span>`);
   }
-  $('#log').scrollTop($('#log')[0].scrollHeight);
+  setTimeout(() => {
+    $(container).animate({scrollTop: $(container)[0].scrollHeight})
+  }, 100);
 }
 
 function logFS(data, cb) {
@@ -126,8 +129,6 @@ function getDate(ts) {
     s += '&nbsp;';
   }
   s += dayjs(ts).format('HH:mm A DD.MM.YY');
-  console.log(ts);
-  console.log(dayjs(ts).format('HH:mm A DD.MM.YY'))
   return s;
 }
 
@@ -140,7 +141,7 @@ function help() {
 function end() {
   $('iframe').remove();
   $('h1').html('Goodbye');
-  $('#log').html('');
+  $('.line').remove();
   $('#bottom').hide();
   logLine('It was nice sharing this walk with you.', false, true);
 }
