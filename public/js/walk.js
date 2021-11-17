@@ -149,6 +149,7 @@ function help() {
 }
 
 function end() {
+  $('#form').hide();
   $('iframe').remove();
   $('h1').html('Goodbye');
   $('.line').remove();
