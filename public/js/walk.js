@@ -9,7 +9,13 @@ function init() {
   db = firebase.firestore(app);
 
   let hash = window.location.hash.substring(1);
-  if (hash) login(hash);
+  if (hash) {
+    if (hash.includes('-idfa')) {
+      hash = hash.split('-')[0];
+      $('main').attr('id', 'idfa');
+    }
+    login(hash);
+  }
 
   $('#submit').click(submit);
   $('#left').click(kick);

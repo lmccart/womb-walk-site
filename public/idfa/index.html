@@ -17,34 +17,41 @@
 
   </head>
   <body>
-    <main class='filler'>
-      <h1>Login</h1>
+    <main class='filler' id='idfa'>
+      <h1>Womb Walk</h1>
 
       <div id='player' style='display:none'></div>
       <section id='form'>
-        <p>Welcome to Womb Walk. To begin, enter your code below.</p>
-        <label for='code' class='sr-only'>Code:</label>
-        <input type='text' id='code' placeholder='Code'>
+        <p>
+          Will you be my imaginary baby?
+          I wear a pregnant belly prosthetic
+          under my clothes. I walk around the city
+          speaking to my belly, describing what I
+          see around me as I move.
+          You remotely join the walk in the role
+          of the baby, listening to my voice.
+          You control my movements by triggering 
+          small internal kicks to
+          the sides of my belly directing me when
+          to turn. Together, we navigate the city,
+          with imagined baby as interface.
+        </p>
+        <p id='performances'>
+          Performances take place:<br>
+          19/11 17:00-18:00<br>
+          19/24 20:00-21:00
+        </p>
       </section>
 
-      <section id='log'>
-          <div id='left-column' class='column'></div>
-          <div id='right-column' class='column'></div>
-      </section>
-        
       <section id='bottom'>
         <div id='buttons'>
-          <button id='submit' onclick='submit'>Submit</button>
-          <button id='left' onclick='left' style='display:none'>Left</button>
-          <button id='right' onclick='right' style='display:none'>Right</button>
+          <button id='start' style='width:100%; display:none'>Start</button>
         </div>
         
-        <a href='/register/' id='link-register'>Need to register?</a>
-        <span class='link' id='link-help' style='display:none'>Help?</a>
 
 
       </section>
     </main>
-    <script src='/js/walk.js'></script>
+    <script src='/js/idfa.js'></script>
   </body>
 </html>
