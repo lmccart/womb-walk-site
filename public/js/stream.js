@@ -33,7 +33,7 @@ function submit() {
   if (!validate()) return;
   let url = $('#url').val();
   code = $('#sessions').val();
-  db.collection('sessions').doc(code).set({url: url}, {merge: true}).then(() => {
+  db.collection('sessions').doc(code).set({url: url, active: true}, {merge: true}).then(() => {
     start();
   });
 }
@@ -72,7 +72,7 @@ function getDate() {
 }
 
 function end() {
-  db.collection('sessions').doc(code).set({ended: true}, {merge: true}).then(() => {
+  db.collection('sessions').doc(code).set({ended: true, active: false}, {merge: true}).then(() => {
     $('#end').hide();
     $('#success').show();
   });

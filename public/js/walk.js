@@ -1,5 +1,6 @@
 const app = firebase.app();
 let code, playerId, player;
+let idfa;
 
 firebase.auth().signInAnonymously()
 .then(init)
@@ -13,6 +14,7 @@ function init() {
     if (hash.includes('-idfa')) {
       hash = hash.split('-')[0];
       $('main').attr('id', 'idfa');
+      idfa = true;
     }
     login(hash);
   }
@@ -75,7 +77,7 @@ function loadWalk() {
   $('#form').hide();
   $('#submit').hide();
   $('#link-register').hide();
-  $('#link-help').show();
+  if (!idfa) $('#link-help').show();
   logLine('Your access code has been accepted.', new Date().getTime());
   logLine('Womb Walk is loading.', new Date().getTime());
 
