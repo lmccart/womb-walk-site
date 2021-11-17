@@ -200,3 +200,14 @@ input:last-child {
     width: calc(50% - var(--mar) * 2);
   }
 }
+
+/* IDFA */
+@media (min-device-width: 555px) and (max-device-width: 560px) and (min-device-height: 345px) and (max-device-height: 350px) {
+  button {
+    width: 49%;
+  }
+  :root {
+    --buttonH: 65px;
+  }
+  
+}
