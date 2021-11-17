@@ -5,6 +5,7 @@ firebase.auth().signInAnonymously()
 .catch(function(error) { console.log(error); });
 
 function init() {
+  $('#tz').text( Intl.DateTimeFormat().resolvedOptions().timeZone);
   db = firebase.firestore(app);
   db.collection('sessions').where('name', '==', '').onSnapshot({}, function(snapshot) {
     if (!snapshot.docs.length) {
@@ -12,7 +13,11 @@ function init() {
     }
     snapshot.docChanges().forEach(function(change) {
       if (change.type === 'added') {
-        $('#time').append(`<option value='${change.doc.data().code}'>${change.doc.data().timestamp.toDate()}</option>`);
+        let start = dayjs(change.doc.data().timestamp.toDate()).format('DD/MM/YY HH:mm A');
+        let end = dayjs(change.doc.data().timestamp.toDate().getTime() + 20*60*1000).format('-HH:mm A');
+        console.log(start, end)
+        if (start.substring(start.length-2, start.length) === end.substring(end.length-2, end.length)) start = start.substring(0, start.length-3);
+        $('#time').append(`<option value='${change.doc.data().code}'>${start}${end}</option>`);
       }
     });
   });
@@ -35,7 +40,7 @@ function submit() {
 }
 
 function validate() {
-  if (!$('#time').val()) alert('Please select a time slot');
+  if (!$('#time').val() || $('#time').val() === '0') alert('Please select a time slot');
   else if (!$('#name').val()) alert('Please enter your name');
   else if (!$('#email').val()) alert('Please enter your email');
   else if (!$('#phone').val()) alert('Please enter your phone');

@@ -9,12 +9,18 @@ function init() {
   db.collection('sessions').where('code', '!=', '').onSnapshot({}, function(snapshot) {
     snapshot.docChanges().forEach(function(change) {
       if (change.type === 'added') {
-        $('#sessions').append(`<option value='${change.doc.data().code}'>${change.doc.data().timestamp.toDate()} - ${change.doc.data().name}</option>`);
+        $('#sessions').append(`<option value='${change.doc.data().code}' data-url='${change.doc.data().url}'>${change.doc.data().timestamp.toDate()} - ${change.doc.data().name}</option>`);
       }
     });
   });
+  $('#sessions').on('change', update);
   $('#submit').click(submit);
   $('#end').click(end);
+}
+
+function update(e) {
+  let url = $('#sessions').find(':selected')[0].dataset.url;
+  if (url) $('#url').val(url);
 }
 
 function validate() {

@@ -1,9 +1,20 @@
-const functions = require("firebase-functions");
+const functions = require('firebase-functions');
+const Discord = require('discord.js');
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+exports.left = functions.https.onRequest((request, response) => {
+  client.channels.get('757688700011282608').send('LEFT');
+  response.send('success');
+});
+
+exports.right = functions.https.onRequest((request, response) => {
+  client.channels.get('757688700011282608').send('RIGHT');
+  response.send('success');
+});
+
+client.login(functions.config().discord.token);
+

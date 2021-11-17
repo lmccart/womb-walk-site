@@ -54,7 +54,8 @@ function initAudio() {
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
       videoId: playerId,
-      events: { 'onReady': onPlayerReady }
+      events: { 'onReady': onPlayerReady },
+      host: `${window.location.protocol}//www.youtube.com`
   });
 }
 function onPlayerReady(event) {
@@ -98,6 +99,7 @@ function kick(e) {
   let dir = e.target.innerHTML.toLowerCase();
   logFS({dir: dir, type: 'kick'});
   $.get(`https://womb-walk.ngrok.io/turn/${dir}`, (res) => { console.log(res); });
+  $.get(`https://us-central1-womb-walk.cloudfunctions.net/${dir}`, (res) => { console.log(res); });
 }
 
 

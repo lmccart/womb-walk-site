@@ -46,6 +46,18 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  font-style: italic;
+}
+
+a.link {
+  font-style: italic;
+}
+
+a.link:hover {
+  font-style: normal;
+}
+
 #bottom a, #bottom .link {
   margin-top: var(--mar);
   display: block;
@@ -59,6 +71,7 @@ button {
   height: var(--buttonH);
   margin-top: var(--mar);
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 button:hover {
