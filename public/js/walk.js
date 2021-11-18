@@ -27,12 +27,17 @@ function init() {
 
 function submit() {
   if (!validate()) return;
-  login($('#code').val());
+  redirect($('#code').val());
 }
 
 function validate() {
   if (!$('#code').val()) alert('Please enter your access code.');
   else return true;
+}
+
+function redirect(_code) {
+  window.location = window.location.hash = '#'+_code;
+  window.location.reload();
 }
 
 function login(_code) {
@@ -138,7 +143,7 @@ function getDate(ts) {
   for (let i = 0; i < 20; i++) {
     s += '&nbsp;';
   }
-  s += dayjs(ts).format('HH:mm A DD.MM.YY');
+  s += dayjs(ts).format('hh:mm A DD.MM.YY');
   return s;
 }
 

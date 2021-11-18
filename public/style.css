@@ -46,15 +46,25 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+a:hover, .link-button:hover {
   font-style: italic;
 }
 
-a.link {
-  font-style: italic;
+.link-button {
+  box-shadow: none !important;
+  height: fit-content;
+  width: fit-content;
+  text-transform: capitalize;
 }
 
-a.link:hover {
+
+
+.link {
+  font-style: italic;
+  cursor: pointer;
+}
+
+.link:hover {
   font-style: normal;
 }
 
