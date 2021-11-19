@@ -183,7 +183,7 @@ input:last-child {
 /* TABLET */
 @media only screen and (min-device-width: 768px) {
   #log {
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
   }
   .column {
     width: calc(50% - var(--mar) * 2);
